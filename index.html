@@ -69,87 +69,53 @@
           aria-label="Abrir información de la señal"
         ></button>
 
-        <nav class="left-slider" id="leftSlider" aria-label="Selector táctil de nodos">
-          <div class="slider-track" aria-hidden="true">
-            <span class="slider-track__charge"></span>
+        <div class="svg-controls" id="svgControls">
+          <img
+            class="svg-controls__art"
+            src="assets/totem-buttons.svg"
+            alt=""
+            aria-hidden="true"
+          >
+
+          <button
+            class="svg-hotspot svg-hotspot--indicator"
+            type="button"
+            data-action="SYSTEM"
+            aria-label="Activar indicador del sistema"
+          ></button>
+
+          <nav class="svg-left-slider" id="leftSlider" aria-label="Selector táctil de nodos">
+            <span class="svg-slider-track" aria-hidden="true">
+              <i class="svg-slider-charge"></i>
+            </span>
+            <span class="svg-slider-thumb" id="sliderThumb" aria-hidden="true"></span>
+            <button class="svg-hotspot svg-hotspot--left svg-slot--01 is-active" type="button" data-index="0" data-label="NODO 01" aria-label="Nodo 01" aria-pressed="true"></button>
+            <button class="svg-hotspot svg-hotspot--left svg-slot--02" type="button" data-index="1" data-label="NODO 02" aria-label="Nodo 02" aria-pressed="false"></button>
+            <button class="svg-hotspot svg-hotspot--left svg-slot--03" type="button" data-index="2" data-label="NODO 03" aria-label="Nodo 03" aria-pressed="false"></button>
+            <button class="svg-hotspot svg-hotspot--left svg-slot--04" type="button" data-index="3" data-label="NODO 04" aria-label="Nodo 04" aria-pressed="false"></button>
+            <button class="svg-hotspot svg-hotspot--left svg-slot--05" type="button" data-index="4" data-label="NODO 05" aria-label="Nodo 05" aria-pressed="false"></button>
+            <button class="svg-hotspot svg-hotspot--left svg-slot--06" type="button" data-index="5" data-label="NODO 06" aria-label="Nodo 06" aria-pressed="false"></button>
+            <button class="svg-hotspot svg-hotspot--left svg-slot--07" type="button" data-index="6" data-label="NODO 07" aria-label="Nodo 07" aria-pressed="false"></button>
+            <button class="svg-hotspot svg-hotspot--left svg-slot--08" type="button" data-index="7" data-label="NODO 08" aria-label="Nodo 08" aria-pressed="false"></button>
+            <button class="svg-hotspot svg-hotspot--left svg-slot--09" type="button" data-index="8" data-label="NODO 09" aria-label="Nodo 09" aria-pressed="false"></button>
+            <button class="svg-hotspot svg-hotspot--left svg-slot--10" type="button" data-index="9" data-label="NODO 10" aria-label="Nodo 10" aria-pressed="false"></button>
+          </nav>
+
+          <nav class="svg-right-deck" aria-label="Acciones de navegación">
+            <button class="svg-hotspot svg-hotspot--right svg-right--01 is-active" type="button" data-action="VECTOR" aria-label="Vector" aria-pressed="true"></button>
+            <button class="svg-hotspot svg-hotspot--right svg-right--02" type="button" data-action="ZENITH" aria-label="Zenith" aria-pressed="false"></button>
+            <button class="svg-hotspot svg-hotspot--right svg-right--03" type="button" data-action="JUNCTION" aria-label="Junction" aria-pressed="false"></button>
+            <button class="svg-hotspot svg-hotspot--right svg-right--04" type="button" data-action="RELAY" aria-label="Relay" aria-pressed="false"></button>
+            <button class="svg-hotspot svg-hotspot--right svg-right--05" type="button" data-action="LIFELINE" aria-label="Lifeline" aria-pressed="false"></button>
+          </nav>
+
+          <div class="svg-utility-actions" role="group" aria-label="Utilidades">
+            <button class="svg-hotspot svg-hotspot--utility svg-utility--01" type="button" data-utility="ARCHIVE" aria-label="Abrir archivo de datos"></button>
+            <button class="svg-hotspot svg-hotspot--utility svg-utility--02" type="button" data-utility="TRANSROLL" aria-label="Activar Transroll"></button>
           </div>
-          <div class="slider-thumb" id="sliderThumb" aria-hidden="true">
-            <span></span>
-          </div>
-          <button class="slider-node is-active" type="button" data-index="0" data-label="NODO 01" aria-pressed="true">
-            <span class="slider-node__code">01</span>
-          </button>
-          <button class="slider-node" type="button" data-index="1" data-label="NODO 02" aria-pressed="false">
-            <span class="slider-node__code">02</span>
-          </button>
-          <button class="slider-node" type="button" data-index="2" data-label="NODO 03" aria-pressed="false">
-            <span class="slider-node__code">03</span>
-          </button>
-          <button class="slider-node" type="button" data-index="3" data-label="NODO 04" aria-pressed="false">
-            <span class="slider-node__code">04</span>
-          </button>
-          <button class="slider-node" type="button" data-index="4" data-label="NODO 05" aria-pressed="false">
-            <span class="slider-node__code">05</span>
-          </button>
-          <button class="slider-node" type="button" data-index="5" data-label="NODO 06" aria-pressed="false">
-            <span class="slider-node__code">06</span>
-          </button>
-          <button class="slider-node" type="button" data-index="6" data-label="NODO 07" aria-pressed="false">
-            <span class="slider-node__code">07</span>
-          </button>
-          <button class="slider-node" type="button" data-index="7" data-label="NODO 08" aria-pressed="false">
-            <span class="slider-node__code">08</span>
-          </button>
-          <button class="slider-node" type="button" data-index="8" data-label="NODO 09" aria-pressed="false">
-            <span class="slider-node__code">09</span>
-          </button>
-          <button class="slider-node" type="button" data-index="9" data-label="NODO 10" aria-pressed="false">
-            <span class="slider-node__code">10</span>
-          </button>
-        </nav>
 
-        <nav class="action-deck" aria-label="Acciones de navegación">
-          <button class="action-button is-active" type="button" data-action="VECTOR" aria-pressed="true">
-            <span class="action-button__glyph">V</span>
-            <span class="action-button__label">VECTOR</span>
-          </button>
-          <button class="action-button" type="button" data-action="ZENITH" aria-pressed="false">
-            <span class="action-button__glyph">Z</span>
-            <span class="action-button__label">ZENITH</span>
-          </button>
-          <button class="action-button" type="button" data-action="JUNCTION" aria-pressed="false">
-            <span class="action-button__glyph">J</span>
-            <span class="action-button__label">JUNCTION</span>
-          </button>
-          <button class="action-button" type="button" data-action="RELAY" aria-pressed="false">
-            <span class="action-button__glyph">R</span>
-            <span class="action-button__label">RELAY</span>
-          </button>
-          <button class="action-button" type="button" data-action="LIFELINE" aria-pressed="false">
-            <span class="action-button__glyph">L</span>
-            <span class="action-button__label">LIFELINE</span>
-          </button>
-        </nav>
-
-        <button class="signal-strip" id="signalStrip" type="button" aria-label="Alternar canal de telemetría">
-          <span class="signal-strip__fill"></span>
-          <span class="signal-strip__text">SIGNAL // CHANNEL 01</span>
-        </button>
-
-        <div class="utility-actions" role="group" aria-label="Utilidades">
-          <button class="utility-button" type="button" data-utility="ARCHIVE" aria-label="Abrir archivo de datos">
-            <span class="utility-button__diamond"></span>
-            <small>ARCHIVE</small>
-          </button>
-          <button class="utility-button" type="button" data-utility="TRANSROLL" aria-label="Activar Transroll">
-            <span class="utility-button__cross"></span>
-            <small>TRANSROLL</small>
-          </button>
+          <div class="button-fx-layer" id="buttonFxLayer" aria-hidden="true"></div>
         </div>
-
-        <button class="footer-hotspot" id="footerHotspot" type="button" aria-label="Alternar diagnóstico inferior">
-          <span></span>
-        </button>
 
         <section
           class="signal-modal"

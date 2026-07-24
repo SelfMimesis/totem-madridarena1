@@ -10,11 +10,11 @@
   const signalModal = document.querySelector("#signalModal");
   const modalClose = document.querySelector("#modalClose");
   const leftSlider = document.querySelector("#leftSlider");
-  const sliderNodes = [...document.querySelectorAll(".slider-node")];
-  const actionButtons = [...document.querySelectorAll(".action-button")];
-  const signalStrip = document.querySelector("#signalStrip");
-  const utilityButtons = [...document.querySelectorAll(".utility-button")];
-  const footerHotspot = document.querySelector("#footerHotspot");
+  const sliderNodes = [...document.querySelectorAll(".svg-hotspot--left")];
+  const actionButtons = [...document.querySelectorAll(".svg-hotspot--right")];
+  const utilityButtons = [...document.querySelectorAll(".svg-hotspot--utility")];
+  const indicatorButton = document.querySelector(".svg-hotspot--indicator");
+  const buttonFxLayer = document.querySelector("#buttonFxLayer");
   const fullscreenHotspot = document.querySelector("#fullscreenHotspot");
   const toast = document.querySelector("#toast");
   const toastText = document.querySelector("#toastText");
@@ -25,13 +25,7 @@
   let lastFullscreenTap = 0;
   let fullscreenRequest = null;
   let lastFocusedElement = null;
-  let signalMode = 0;
-
-  const signalModes = [
-    { label: "SIGNAL // CHANNEL 01", width: "71%" },
-    { label: "SIGNAL // CHANNEL 04", width: "88%" },
-    { label: "SIGNAL // DEEP SCAN", width: "96%" },
-  ];
+  const lastButtonAnimation = new WeakMap();
 
   function fitStage() {
     const scale = Math.min(window.innerWidth / DESIGN_WIDTH, window.innerHeight / DESIGN_HEIGHT);
@@ -53,6 +47,50 @@
     }
   }
 
+  function emitButtonFx(button) {
+    const buttonRect = button.getBoundingClientRect();
+    const terminalRect = terminal.getBoundingClientRect();
+    const terminalScale = terminalRect.width / terminal.offsetWidth;
+    const centerX = (buttonRect.left + buttonRect.width / 2 - terminalRect.left) / terminalScale;
+    const centerY = (buttonRect.top + buttonRect.height / 2 - terminalRect.top) / terminalScale;
+    const burst = document.createElement("span");
+
+    burst.className = "control-burst";
+    burst.style.left = `${centerX}px`;
+    burst.style.top = `${centerY}px`;
+    buttonFxLayer.append(burst);
+
+    for (let index = 0; index < 12; index += 1) {
+      const particle = document.createElement("i");
+      const angle = index * 30 + (index % 2) * 9;
+      const distance = 52 + (index % 4) * 17;
+
+      particle.className = "control-particle";
+      particle.style.left = `${centerX}px`;
+      particle.style.top = `${centerY}px`;
+      particle.style.setProperty("--particle-angle", `${angle}deg`);
+      particle.style.setProperty("--particle-distance", `${distance}px`);
+      particle.style.setProperty("--particle-delay", `${(index % 3) * 22}ms`);
+      buttonFxLayer.append(particle);
+      particle.addEventListener("animationend", () => particle.remove(), { once: true });
+    }
+
+    burst.addEventListener("animationend", () => burst.remove(), { once: true });
+  }
+
+  function animateSvgButton(button) {
+    if (!button) return;
+    const now = performance.now();
+    const previousAnimation = lastButtonAnimation.get(button);
+    if (previousAnimation !== undefined && now - previousAnimation < 160) return;
+    lastButtonAnimation.set(button, now);
+    button.classList.remove("is-pressed");
+    void button.offsetWidth;
+    button.classList.add("is-pressed");
+    emitButtonFx(button);
+    window.setTimeout(() => button.classList.remove("is-pressed"), 920);
+  }
+
   function updateSliderThumb(index, animate = true) {
     const selected = sliderNodes[index];
     if (!selected) return;
@@ -72,7 +110,8 @@
 
   function setActiveNode(index, announce = true) {
     const next = Math.max(0, Math.min(sliderNodes.length - 1, index));
-    if (next !== activeNode) {
+    const changed = next !== activeNode;
+    if (changed) {
       pulseHaptic(9);
     }
 
@@ -84,6 +123,9 @@
     });
 
     updateSliderThumb(activeNode);
+    if (changed || announce) {
+      animateSvgButton(sliderNodes[activeNode]);
+    }
     if (announce) {
       showToast(`${sliderNodes[activeNode].dataset.label} // LOCKED`);
     }
@@ -112,10 +154,14 @@
 
   function startSliderDrag(event) {
     if (event.button !== undefined && event.button !== 0) return;
+    const previousNode = activeNode;
     draggingSlider = true;
     leftSlider.classList.add("is-dragging");
     leftSlider.setPointerCapture?.(event.pointerId);
     selectNodeFromPointer(event);
+    if (previousNode === activeNode) {
+      animateSvgButton(sliderNodes[activeNode]);
+    }
     event.preventDefault();
   }
 
@@ -164,31 +210,24 @@
       item.classList.toggle("is-active", isActive);
       item.setAttribute("aria-pressed", String(isActive));
     });
+    animateSvgButton(button);
     pulseHaptic(11);
     showToast(`${button.dataset.action} // ACTIVE`);
-  }
-
-  function cycleSignalMode() {
-    signalMode = (signalMode + 1) % signalModes.length;
-    const nextMode = signalModes[signalMode];
-    signalStrip.querySelector(".signal-strip__text").textContent = nextMode.label;
-    signalStrip.querySelector(".signal-strip__fill").style.width = nextMode.width;
-    pulseHaptic(12);
-    showToast(`${nextMode.label} // ONLINE`);
   }
 
   function activateUtility(button) {
     const wasActive = button.classList.contains("is-active");
     utilityButtons.forEach((item) => item.classList.remove("is-active"));
     button.classList.toggle("is-active", !wasActive);
+    animateSvgButton(button);
     pulseHaptic(10);
     showToast(`${button.dataset.utility} // ${wasActive ? "STANDBY" : "ENGAGED"}`);
   }
 
-  function toggleFooterDiagnostic() {
-    const isActive = footerHotspot.classList.toggle("is-active");
-    pulseHaptic(8);
-    showToast(`LOWER DIAGNOSTIC // ${isActive ? "VISIBLE" : "HIDDEN"}`);
+  function activateIndicator() {
+    animateSvgButton(indicatorButton);
+    pulseHaptic([12, 28, 12]);
+    showToast("SYSTEM CORE // PULSE");
   }
 
   function fullscreenElement() {
@@ -304,14 +343,17 @@
     });
   });
 
+  indicatorButton.addEventListener("click", (event) => {
+    event.stopPropagation();
+    activateIndicator();
+  });
+
   leftSlider.addEventListener("pointerdown", startSliderDrag);
   leftSlider.addEventListener("pointermove", moveSlider);
   leftSlider.addEventListener("pointerup", endSliderDrag);
   leftSlider.addEventListener("pointercancel", endSliderDrag);
   videoTrigger.addEventListener("click", openSignalModal);
   modalClose.addEventListener("click", closeSignalModal);
-  signalStrip.addEventListener("click", cycleSignalMode);
-  footerHotspot.addEventListener("click", toggleFooterDiagnostic);
   fullscreenHotspot.addEventListener("pointerup", handleFullscreenHotspot);
   window.addEventListener("resize", fitStage, { passive: true });
 

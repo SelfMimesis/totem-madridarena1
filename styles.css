@@ -1516,8 +1516,405 @@ button:focus-visible {
   border: 0;
 }
 
+.svg-controls {
+  position: absolute;
+  z-index: 10;
+  inset: 0;
+  pointer-events: none;
+  transition: opacity 350ms ease, filter 350ms ease;
+}
+
+.svg-controls__art {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+  pointer-events: none;
+  filter: drop-shadow(0 0 2px rgba(179, 188, 195, 0.18));
+}
+
+.terminal.is-obscured .svg-controls {
+  opacity: 0.1;
+  filter: blur(4px);
+  pointer-events: none;
+}
+
+.svg-hotspot {
+  position: absolute;
+  z-index: 4;
+  overflow: visible;
+  padding: 0;
+  cursor: pointer;
+  background: transparent;
+  border: 0;
+  outline-offset: 8px;
+  touch-action: manipulation;
+  isolation: isolate;
+  pointer-events: auto;
+  transform-origin: center;
+}
+
+.svg-hotspot::before,
+.svg-hotspot::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  top: 50%;
+  left: 50%;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.svg-hotspot::before {
+  width: 150%;
+  height: 150%;
+  border-radius: 20%;
+  transform: translate(-50%, -50%) scale(0.3) rotate(-12deg);
+  background:
+    linear-gradient(115deg, transparent 22%, rgba(255, 255, 255, 0.82) 48%, rgba(35, 246, 255, 0.75) 51%, transparent 75%),
+    radial-gradient(circle, rgba(35, 246, 255, 0.72), rgba(29, 89, 255, 0.22) 42%, transparent 70%);
+  filter: blur(5px);
+  mix-blend-mode: screen;
+}
+
+.svg-hotspot::after {
+  width: 38%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  transform: translate(-50%, -50%) scale(0.2);
+  background: radial-gradient(
+    circle,
+    transparent 45%,
+    rgba(255, 255, 255, 0.95) 47%,
+    rgba(35, 246, 255, 0.92) 51%,
+    transparent 57%
+  );
+  filter: drop-shadow(0 0 8px var(--cyan));
+}
+
+.svg-hotspot.is-active {
+  background: rgba(35, 246, 255, 0.018);
+  backdrop-filter: brightness(1.16) saturate(1.12);
+}
+
+.svg-hotspot.is-pressed {
+  animation: svg-button-impact 820ms cubic-bezier(0.16, 0.85, 0.18, 1);
+}
+
+.svg-hotspot.is-pressed::before {
+  animation: svg-button-sweep 760ms cubic-bezier(0.16, 0.82, 0.18, 1);
+}
+
+.svg-hotspot.is-pressed::after {
+  animation: svg-button-ring 900ms cubic-bezier(0.12, 0.78, 0.2, 1);
+}
+
+.svg-hotspot--indicator {
+  top: 0.6%;
+  left: 92.82%;
+  width: 6.28%;
+  height: 3.55%;
+  border-radius: 5px;
+}
+
+.svg-left-slider {
+  position: absolute;
+  z-index: 3;
+  top: 15.6%;
+  left: 4.5%;
+  width: 8.3%;
+  height: 52.85%;
+  cursor: ns-resize;
+  pointer-events: auto;
+  touch-action: none;
+  --thumb-y: 4.35%;
+}
+
+.svg-slider-track {
+  position: absolute;
+  z-index: 2;
+  top: 4.25%;
+  bottom: 3.8%;
+  left: 52%;
+  width: 2px;
+  overflow: hidden;
+  transform: translateX(-50%);
+  background: rgba(103, 94, 255, 0.42);
+  box-shadow: 0 0 7px rgba(74, 94, 255, 0.52);
+  pointer-events: none;
+}
+
+.svg-slider-charge {
+  position: absolute;
+  inset: 0 0 auto;
+  display: block;
+  width: 100%;
+  height: var(--thumb-y);
+  background: linear-gradient(var(--cyan), var(--violet));
+  box-shadow: 0 0 10px var(--cyan);
+  transition: height 230ms cubic-bezier(0.18, 0.86, 0.2, 1);
+}
+
+.svg-slider-thumb {
+  position: absolute;
+  z-index: 7;
+  top: var(--thumb-y);
+  left: 52%;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  box-shadow:
+    0 0 6px white,
+    0 0 16px var(--cyan),
+    0 0 34px rgba(35, 246, 255, 0.76);
+  transition: top 230ms cubic-bezier(0.18, 0.86, 0.2, 1);
+  pointer-events: none;
+}
+
+.svg-left-slider.is-dragging .svg-slider-thumb {
+  animation: slider-core-pulse 480ms ease-in-out infinite alternate;
+}
+
+.svg-hotspot--left {
+  left: 17%;
+  width: 69%;
+  height: 6.42%;
+  border-radius: 8px;
+}
+
+.svg-slot--01 { top: 1.05%; }
+.svg-slot--02 { top: 11.26%; }
+.svg-slot--03 { top: 21.47%; }
+.svg-slot--04 { top: 31.68%; }
+.svg-slot--05 { top: 41.89%; }
+.svg-slot--06 { top: 52.1%; }
+.svg-slot--07 { top: 62.31%; }
+.svg-slot--08 { top: 72.52%; }
+.svg-slot--09 { top: 82.73%; }
+.svg-slot--10 { top: 92.94%; }
+
+.svg-right-deck {
+  position: absolute;
+  z-index: 3;
+  inset: 0;
+  pointer-events: none;
+}
+
+.svg-hotspot--right {
+  left: 89.8%;
+  width: 8.28%;
+  height: 9.55%;
+  border-radius: 8px;
+}
+
+.svg-right--01 { top: 16.26%; }
+.svg-right--02 { top: 26.48%; }
+.svg-right--03 { top: 36.7%; }
+.svg-right--04 { top: 46.92%; }
+.svg-right--05 { top: 57.14%; }
+
+.svg-utility-actions {
+  position: absolute;
+  z-index: 3;
+  inset: 0;
+  pointer-events: none;
+}
+
+.svg-hotspot--utility {
+  top: 82.78%;
+  width: 7.96%;
+  height: 4.43%;
+  border-radius: 6px;
+}
+
+.svg-utility--01 { left: 74.71%; }
+.svg-utility--02 { left: 84.34%; }
+
+.button-fx-layer {
+  position: absolute;
+  z-index: 12;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.control-burst {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  box-shadow:
+    0 0 8px white,
+    0 0 24px var(--cyan),
+    0 0 64px rgba(35, 246, 255, 0.9);
+  animation: control-core-burst 760ms cubic-bezier(0.12, 0.75, 0.18, 1) forwards;
+}
+
+.control-burst::before,
+.control-burst::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  transform: translate(-50%, -50%) scale(0.15);
+  background: radial-gradient(circle, transparent 54%, rgba(35, 246, 255, 0.9) 57%, transparent 62%);
+  filter: drop-shadow(0 0 7px var(--cyan));
+  animation: control-wave 820ms cubic-bezier(0.12, 0.72, 0.18, 1) forwards;
+}
+
+.control-burst::after {
+  width: 108px;
+  height: 108px;
+  animation-delay: 70ms;
+}
+
+.control-particle {
+  position: absolute;
+  width: 5px;
+  height: 18px;
+  border-radius: 4px;
+  opacity: 0;
+  transform: translate(-50%, -50%) rotate(var(--particle-angle));
+  transform-origin: center;
+  background: linear-gradient(white, var(--cyan), transparent);
+  box-shadow: 0 0 8px var(--cyan);
+  animation: control-particle-flight 760ms cubic-bezier(0.14, 0.7, 0.2, 1) var(--particle-delay) forwards;
+}
+
 @keyframes ambient-drift {
   to { transform: translate(190px, 120px) scale(1.1); }
+}
+
+@keyframes svg-button-impact {
+  0% {
+    transform: scale(1);
+    backdrop-filter: brightness(1) saturate(1);
+  }
+
+  15% {
+    transform: scale(0.93);
+    backdrop-filter: brightness(2.8) saturate(2.2);
+    background: rgba(35, 246, 255, 0.2);
+    box-shadow:
+      inset 0 0 34px rgba(255, 255, 255, 0.74),
+      0 0 44px rgba(35, 246, 255, 0.84);
+  }
+
+  42% {
+    transform: scale(1.08);
+    backdrop-filter: brightness(2.2) saturate(1.9);
+    background: rgba(119, 103, 255, 0.12);
+    box-shadow:
+      inset 0 0 28px rgba(35, 246, 255, 0.44),
+      0 0 60px rgba(35, 246, 255, 0.6);
+  }
+
+  100% {
+    transform: scale(1);
+    backdrop-filter: brightness(1.16) saturate(1.12);
+    background: rgba(35, 246, 255, 0.018);
+    box-shadow: none;
+  }
+}
+
+@keyframes svg-button-sweep {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.25) rotate(-18deg);
+  }
+
+  24% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(1.35) rotate(18deg);
+  }
+}
+
+@keyframes svg-button-ring {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.15);
+  }
+
+  20% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(4.2);
+  }
+}
+
+@keyframes slider-core-pulse {
+  to {
+    transform: translate(-50%, -50%) scale(1.65);
+    box-shadow:
+      0 0 7px white,
+      0 0 22px var(--cyan),
+      0 0 46px var(--cyan);
+  }
+}
+
+@keyframes control-core-burst {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.2);
+  }
+
+  18% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(2.4);
+  }
+}
+
+@keyframes control-wave {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.1);
+  }
+
+  18% {
+    opacity: 0.9;
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(2.8);
+  }
+}
+
+@keyframes control-particle-flight {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) rotate(var(--particle-angle)) translateY(0) scaleY(0.3);
+  }
+
+  18% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) rotate(var(--particle-angle)) translateY(calc(-1 * var(--particle-distance))) scaleY(1.4);
+  }
 }
 
 @keyframes soft-pulse {
