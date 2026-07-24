@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#050611" />
+    <meta
+      name="description"
+      content="Interfaz táctil 4K para el tótem de Embarkation Zone."
+    />
+    <title>Embarkation Zone // Totem 01</title>
+    <link rel="preload" href="assets/automatron-numbersdec.ttf" as="font" type="font/ttf" crossorigin />
+    <link rel="preload" href="assets/totem-loop.mp4" as="video" type="video/mp4" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="stage" id="stage" aria-label="Terminal interactivo Embarkation Zone">
+      <video
+        class="background-video"
+        id="backgroundVideo"
+        src="assets/totem-loop.mp4"
+        poster="assets/totem-poster.webp"
+        muted
+        autoplay
+        loop
+        playsinline
+        preload="auto"
+        aria-hidden="true"
+      ></video>
+
+      <div class="ambient-grid" aria-hidden="true"></div>
+      <div class="ambient-glow ambient-glow--cyan" aria-hidden="true"></div>
+      <div class="ambient-glow ambient-glow--violet" aria-hidden="true"></div>
+      <div class="scanlines" aria-hidden="true"></div>
+
+      <aside class="wing wing--left" aria-hidden="true">
+        <div class="wing-kicker">EZ // TERMINAL</div>
+        <div class="wing-emblem"></div>
+        <div class="wing-title">EMBARKATION<br />NODE 01</div>
+        <div class="wing-rule"></div>
+        <div class="wing-data">
+          <span>LAT 40.4168</span>
+          <span>LON -3.7038</span>
+          <span>SYNC 99.84</span>
+        </div>
+        <div class="wing-bars">
+          <i></i><i></i><i></i><i></i><i></i><i></i>
+        </div>
+      </aside>
+
+      <aside class="wing wing--right" aria-hidden="true">
+        <div class="wing-kicker">MADRID // ARENA</div>
+        <div class="right-orbit">
+          <span></span><span></span><span></span>
+          <div class="right-orbit__core"></div>
+        </div>
+        <div class="wing-readout">
+          <span>CHANNEL</span><b>04.7</b>
+          <span>SECTOR</span><b>43-A</b>
+          <span>LINK</span><b>ACTIVE</b>
+        </div>
+      </aside>
+
+      <section class="terminal" id="terminal" aria-label="Pantalla central del tótem">
+        <video
+          class="main-video"
+          id="mainVideo"
+          src="assets/totem-loop.mp4"
+          poster="assets/totem-poster.webp"
+          muted
+          autoplay
+          loop
+          playsinline
+          preload="auto"
+        ></video>
+        <div class="video-dim" aria-hidden="true"></div>
+        <button
+          class="video-trigger"
+          id="videoTrigger"
+          type="button"
+          aria-label="Abrir información de la señal"
+        ></button>
+
+        <nav class="left-slider" id="leftSlider" aria-label="Selector táctil de nodos">
+          <div class="slider-track" aria-hidden="true">
+            <span class="slider-track__charge"></span>
+          </div>
+          <div class="slider-thumb" id="sliderThumb" aria-hidden="true">
+            <span></span>
+          </div>
+          <button class="slider-node is-active" type="button" data-index="0" data-label="NODO 01" aria-pressed="true">
+            <span class="slider-node__code">01</span>
+          </button>
+          <button class="slider-node" type="button" data-index="1" data-label="NODO 02" aria-pressed="false">
+            <span class="slider-node__code">02</span>
+          </button>
+          <button class="slider-node" type="button" data-index="2" data-label="NODO 03" aria-pressed="false">
+            <span class="slider-node__code">03</span>
+          </button>
+          <button class="slider-node" type="button" data-index="3" data-label="NODO 04" aria-pressed="false">
+            <span class="slider-node__code">04</span>
+          </button>
+          <button class="slider-node" type="button" data-index="4" data-label="NODO 05" aria-pressed="false">
+            <span class="slider-node__code">05</span>
+          </button>
+          <button class="slider-node" type="button" data-index="5" data-label="NODO 06" aria-pressed="false">
+            <span class="slider-node__code">06</span>
+          </button>
+          <button class="slider-node" type="button" data-index="6" data-label="NODO 07" aria-pressed="false">
+            <span class="slider-node__code">07</span>
+          </button>
+          <button class="slider-node" type="button" data-index="7" data-label="NODO 08" aria-pressed="false">
+            <span class="slider-node__code">08</span>
+          </button>
+          <button class="slider-node" type="button" data-index="8" data-label="NODO 09" aria-pressed="false">
+            <span class="slider-node__code">09</span>
+          </button>
+          <button class="slider-node" type="button" data-index="9" data-label="NODO 10" aria-pressed="false">
+            <span class="slider-node__code">10</span>
+          </button>
+        </nav>
+
+        <nav class="action-deck" aria-label="Acciones de navegación">
+          <button class="action-button is-active" type="button" data-action="VECTOR" aria-pressed="true">
+            <span class="action-button__glyph">V</span>
+            <span class="action-button__label">VECTOR</span>
+          </button>
+          <button class="action-button" type="button" data-action="ZENITH" aria-pressed="false">
+            <span class="action-button__glyph">Z</span>
+            <span class="action-button__label">ZENITH</span>
+          </button>
+          <button class="action-button" type="button" data-action="JUNCTION" aria-pressed="false">
+            <span class="action-button__glyph">J</span>
+            <span class="action-button__label">JUNCTION</span>
+          </button>
+          <button class="action-button" type="button" data-action="RELAY" aria-pressed="false">
+            <span class="action-button__glyph">R</span>
+            <span class="action-button__label">RELAY</span>
+          </button>
+          <button class="action-button" type="button" data-action="LIFELINE" aria-pressed="false">
+            <span class="action-button__glyph">L</span>
+            <span class="action-button__label">LIFELINE</span>
+          </button>
+        </nav>
+
+        <button class="signal-strip" id="signalStrip" type="button" aria-label="Alternar canal de telemetría">
+          <span class="signal-strip__fill"></span>
+          <span class="signal-strip__text">SIGNAL // CHANNEL 01</span>
+        </button>
+
+        <div class="utility-actions" aria-label="Utilidades">
+          <button class="utility-button" type="button" data-utility="ARCHIVE" aria-label="Abrir archivo de datos">
+            <span class="utility-button__diamond"></span>
+            <small>ARCHIVE</small>
+          </button>
+          <button class="utility-button" type="button" data-utility="TRANSROLL" aria-label="Activar Transroll">
+            <span class="utility-button__cross"></span>
+            <small>TRANSROLL</small>
+          </button>
+        </div>
+
+        <button class="footer-hotspot" id="footerHotspot" type="button" aria-label="Alternar diagnóstico inferior">
+          <span></span>
+        </button>
+
+        <section
+          class="signal-modal"
+          id="signalModal"
+          role="dialog"
+          aria-modal="true"
+          aria-hidden="true"
+          aria-labelledby="modalTitle"
+        >
+          <div class="modal-corners" aria-hidden="true"></div>
+          <button class="modal-close" id="modalClose" type="button" aria-label="Cerrar panel">
+            <span></span><span></span>
+          </button>
+
+          <header class="modal-header">
+            <div>
+              <span class="modal-eyebrow">LIVE SIGNAL // 43-A</span>
+              <h1 id="modalTitle">TRANSROLL NODE</h1>
+            </div>
+            <div class="modal-status"><i></i> SYNCHRONIZED</div>
+          </header>
+
+          <div class="led-visual" aria-hidden="true">
+            <div class="led-grid"></div>
+            <div class="led-orbit led-orbit--outer"></div>
+            <div class="led-orbit led-orbit--inner"></div>
+            <div class="led-axis led-axis--x"></div>
+            <div class="led-axis led-axis--y"></div>
+            <div class="led-emblem">
+              <span class="led-emblem__ghost"></span>
+              <span class="led-emblem__core"></span>
+            </div>
+            <div class="led-node led-node--one"></div>
+            <div class="led-node led-node--two"></div>
+            <div class="led-node led-node--three"></div>
+            <div class="led-node led-node--four"></div>
+            <div class="led-scanner"></div>
+          </div>
+
+          <div class="modal-copy">
+            <div class="modal-copy__lead">
+              <span>EMBARKATION SEQUENCE</span>
+              <strong>ACCESS GRANTED</strong>
+            </div>
+            <p>
+              Enlace biométrico estabilizado. El nodo está preparado para iniciar la
+              secuencia de tránsito.
+            </p>
+          </div>
+
+          <div class="modal-metrics">
+            <div><span>SIGNAL</span><b>99.84%</b><i style="--metric: 99.84%"></i></div>
+            <div><span>VECTOR</span><b>078.42</b><i style="--metric: 78%"></i></div>
+            <div><span>PHASE</span><b>LOCKED</b><i style="--metric: 92%"></i></div>
+          </div>
+
+          <footer class="modal-footer">
+            <span>EZ-01 / MADRID ARENA</span>
+            <span class="modal-code">001101 // 110010 // 43A</span>
+          </footer>
+        </section>
+
+        <div class="terminal-noise" aria-hidden="true"></div>
+      </section>
+
+      <div class="toast" id="toast" role="status" aria-live="polite">
+        <i></i><span id="toastText">SYSTEM READY</span>
+      </div>
+
+      <button
+        class="fullscreen-hotspot"
+        id="fullscreenHotspot"
+        type="button"
+        aria-label="Un toque: pantalla completa. Doble toque: salir de pantalla completa."
+      ></button>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>
