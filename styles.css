@@ -14,6 +14,7 @@
   --blue: #1d59ff;
   --violet: #7767ff;
   --magenta: #ff2f91;
+  --marker-red: #ff304f;
   --amber: #ff9d2f;
   --ice: #d8f8ff;
   --muted: #7d91a7;
@@ -1950,11 +1951,11 @@ button:focus-visible {
   height: 46px;
   border-radius: 50% 50% 50% 0;
   transform: translateX(-50%) rotate(-45deg);
-  background: linear-gradient(135deg, white 0 13%, var(--cyan) 26%, var(--blue) 74%);
+  background: linear-gradient(135deg, white 0 11%, #ff7284 24%, var(--marker-red) 48%, #a80029 86%);
   box-shadow:
     0 0 8px white,
-    0 0 20px var(--cyan),
-    0 0 46px rgba(35, 246, 255, 0.72);
+    0 0 20px var(--marker-red),
+    0 0 46px rgba(255, 48, 79, 0.78);
 }
 
 .map-marker__pin::before,
@@ -1966,14 +1967,14 @@ button:focus-visible {
 
 .map-marker__pin::before {
   inset: 8px;
-  background: #07112a;
-  box-shadow: inset 0 0 10px rgba(35, 246, 255, 0.7);
+  background: #21050b;
+  box-shadow: inset 0 0 10px rgba(255, 48, 79, 0.76);
 }
 
 .map-marker__pin::after {
   inset: 15px;
   background: white;
-  box-shadow: 0 0 8px var(--cyan);
+  box-shadow: 0 0 8px var(--marker-red), 0 0 17px var(--marker-red);
 }
 
 .map-marker__pin i {
@@ -1984,7 +1985,8 @@ button:focus-visible {
   height: 65px;
   border-radius: 50%;
   transform: translate(-50%, -50%);
-  border: 1px solid rgba(35, 246, 255, 0.55);
+  border: 1px solid rgba(255, 48, 79, 0.7);
+  box-shadow: 0 0 13px rgba(255, 48, 79, 0.5);
   animation: marker-pin-orbit 2.4s ease-in-out infinite;
 }
 
@@ -1997,9 +1999,9 @@ button:focus-visible {
   height: 26px;
   border-radius: 50%;
   transform: translateX(-50%);
-  background: radial-gradient(ellipse, rgba(35, 246, 255, 0.34), transparent 66%);
-  border: 1px solid rgba(35, 246, 255, 0.42);
-  box-shadow: 0 0 16px rgba(35, 246, 255, 0.55);
+  background: radial-gradient(ellipse, rgba(255, 48, 79, 0.42), transparent 66%);
+  border: 1px solid rgba(255, 48, 79, 0.58);
+  box-shadow: 0 0 16px rgba(255, 48, 79, 0.66);
   animation: marker-radar 1.8s ease-in-out infinite;
 }
 
@@ -2015,8 +2017,8 @@ button:focus-visible {
   letter-spacing: 2px;
   text-align: center;
   color: var(--ice);
-  text-shadow: 0 0 8px var(--cyan);
-  box-shadow: inset 0 -2px rgba(35, 246, 255, 0.52);
+  text-shadow: 0 0 8px var(--marker-red), 0 0 15px rgba(255, 48, 79, 0.68);
+  box-shadow: inset 0 -2px rgba(255, 48, 79, 0.72);
 }
 
 .map-marker.is-moving .map-marker__pin {
