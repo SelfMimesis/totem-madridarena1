@@ -1,42 +1,29 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="es">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-    <meta name="theme-color" content="#050611" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="theme-color" content="#050611">
     <meta
       name="description"
       content="Interfaz táctil 4K para el tótem de Embarkation Zone."
-    />
+    >
     <title>Embarkation Zone // Totem 01</title>
-    <link rel="preload" href="assets/automatron-numbersdec.ttf" as="font" type="font/ttf" crossorigin />
-    <link rel="preload" href="assets/totem-loop.mp4" as="video" type="video/mp4" />
-    <link rel="stylesheet" href="styles.css" />
+    <link rel="preload" href="assets/automatron-numbersdec.ttf" as="font" type="font/ttf" crossorigin>
+    <link rel="preload" href="assets/totem-loop.mp4" as="video" type="video/mp4">
+    <link rel="stylesheet" href="styles.css">
   </head>
   <body>
     <main class="stage" id="stage" aria-label="Terminal interactivo Embarkation Zone">
-      <video
-        class="background-video"
-        id="backgroundVideo"
-        src="assets/totem-loop.mp4"
-        poster="assets/totem-poster.webp"
-        muted
-        autoplay
-        loop
-        playsinline
-        preload="auto"
-        aria-hidden="true"
-      ></video>
-
       <div class="ambient-grid" aria-hidden="true"></div>
       <div class="ambient-glow ambient-glow--cyan" aria-hidden="true"></div>
       <div class="ambient-glow ambient-glow--violet" aria-hidden="true"></div>
       <div class="scanlines" aria-hidden="true"></div>
 
-      <aside class="wing wing--left" aria-hidden="true">
+      <div class="wing wing--left" aria-hidden="true">
         <div class="wing-kicker">EZ // TERMINAL</div>
         <div class="wing-emblem"></div>
-        <div class="wing-title">EMBARKATION<br />NODE 01</div>
+        <div class="wing-title">EMBARKATION<br>NODE 01</div>
         <div class="wing-rule"></div>
         <div class="wing-data">
           <span>LAT 40.4168</span>
@@ -46,9 +33,9 @@
         <div class="wing-bars">
           <i></i><i></i><i></i><i></i><i></i><i></i>
         </div>
-      </aside>
+      </div>
 
-      <aside class="wing wing--right" aria-hidden="true">
+      <div class="wing wing--right" aria-hidden="true">
         <div class="wing-kicker">MADRID // ARENA</div>
         <div class="right-orbit">
           <span></span><span></span><span></span>
@@ -59,9 +46,10 @@
           <span>SECTOR</span><b>43-A</b>
           <span>LINK</span><b>ACTIVE</b>
         </div>
-      </aside>
+      </div>
 
       <section class="terminal" id="terminal" aria-label="Pantalla central del tótem">
+        <!-- [html-validate-disable-next no-autoplay] -->
         <video
           class="main-video"
           id="mainVideo"
@@ -148,7 +136,7 @@
           <span class="signal-strip__text">SIGNAL // CHANNEL 01</span>
         </button>
 
-        <div class="utility-actions" aria-label="Utilidades">
+        <div class="utility-actions" role="group" aria-label="Utilidades">
           <button class="utility-button" type="button" data-utility="ARCHIVE" aria-label="Abrir archivo de datos">
             <span class="utility-button__diamond"></span>
             <small>ARCHIVE</small>
@@ -170,6 +158,7 @@
           aria-modal="true"
           aria-hidden="true"
           aria-labelledby="modalTitle"
+          inert
         >
           <div class="modal-corners" aria-hidden="true"></div>
           <button class="modal-close" id="modalClose" type="button" aria-label="Cerrar panel">
@@ -213,9 +202,9 @@
           </div>
 
           <div class="modal-metrics">
-            <div><span>SIGNAL</span><b>99.84%</b><i style="--metric: 99.84%"></i></div>
-            <div><span>VECTOR</span><b>078.42</b><i style="--metric: 78%"></i></div>
-            <div><span>PHASE</span><b>LOCKED</b><i style="--metric: 92%"></i></div>
+            <div><span>SIGNAL</span><b>99.84%</b><i class="metric--signal"></i></div>
+            <div><span>VECTOR</span><b>078.42</b><i class="metric--vector"></i></div>
+            <div><span>PHASE</span><b>LOCKED</b><i class="metric--phase"></i></div>
           </div>
 
           <footer class="modal-footer">

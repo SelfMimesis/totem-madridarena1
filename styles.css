@@ -1,7 +1,7 @@
 @font-face {
   font-family: "Automatron";
   src: url("assets/automatron-numbersdec.ttf") format("truetype");
-  font-display: swap;
+  font-display: block;
 }
 
 :root {
@@ -36,8 +36,14 @@ body {
 }
 
 body {
-  font-family: "Segoe UI", "Arial Narrow", sans-serif;
+  font-family: "Automatron";
   color: var(--ice);
+}
+
+body *,
+body *::before,
+body *::after {
+  font-family: "Automatron" !important;
 }
 
 button {
@@ -658,7 +664,7 @@ button:focus-visible {
   top: 50%;
   left: 50%;
   width: 72%;
-  height: 71%;
+  height: 62%;
   padding: 62px 68px 52px;
   overflow: hidden;
   opacity: 0;
@@ -1043,6 +1049,18 @@ button:focus-visible {
   height: 5px;
   background: linear-gradient(90deg, var(--cyan) var(--metric), rgba(94, 111, 140, 0.22) var(--metric));
   box-shadow: 0 0 9px rgba(35, 246, 255, 0.55);
+}
+
+.modal-metrics .metric--signal {
+  --metric: 99.84%;
+}
+
+.modal-metrics .metric--vector {
+  --metric: 78%;
+}
+
+.modal-metrics .metric--phase {
+  --metric: 92%;
 }
 
 .modal-footer {

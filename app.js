@@ -6,7 +6,6 @@
   const stage = document.querySelector("#stage");
   const terminal = document.querySelector("#terminal");
   const mainVideo = document.querySelector("#mainVideo");
-  const backgroundVideo = document.querySelector("#backgroundVideo");
   const videoTrigger = document.querySelector("#videoTrigger");
   const signalModal = document.querySelector("#signalModal");
   const modalClose = document.querySelector("#modalClose");
@@ -141,6 +140,7 @@
     terminal.classList.add("is-obscured");
     signalModal.classList.add("is-open");
     signalModal.setAttribute("aria-hidden", "false");
+    signalModal.inert = false;
     modalClose.focus({ preventScroll: true });
     pulseHaptic([18, 25, 18]);
     showToast("TRANSROLL SIGNAL // CONNECTED");
@@ -150,6 +150,7 @@
     if (!signalModal.classList.contains("is-open")) return;
     signalModal.classList.remove("is-open");
     signalModal.setAttribute("aria-hidden", "true");
+    signalModal.inert = true;
     terminal.classList.remove("is-obscured");
     if (lastFocusedElement instanceof HTMLElement) {
       lastFocusedElement.focus({ preventScroll: true });
@@ -256,17 +257,9 @@
     event.preventDefault();
   }
 
-  function keepVideosSynchronized() {
-    if (Math.abs(backgroundVideo.currentTime - mainVideo.currentTime) > 0.18) {
-      backgroundVideo.currentTime = mainVideo.currentTime;
-    }
-  }
-
   function startPlayback() {
     const playMain = mainVideo.play();
-    const playBackground = backgroundVideo.play();
     playMain?.catch?.(() => {});
-    playBackground?.catch?.(() => {});
   }
 
   function trapModalFocus(event) {
@@ -320,7 +313,6 @@
   signalStrip.addEventListener("click", cycleSignalMode);
   footerHotspot.addEventListener("click", toggleFooterDiagnostic);
   fullscreenHotspot.addEventListener("pointerup", handleFullscreenHotspot);
-  mainVideo.addEventListener("timeupdate", keepVideosSynchronized);
   window.addEventListener("resize", fitStage, { passive: true });
 
   document.addEventListener("fullscreenchange", () => {
