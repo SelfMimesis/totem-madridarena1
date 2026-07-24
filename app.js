@@ -15,6 +15,15 @@
   const utilityButtons = [...document.querySelectorAll(".svg-hotspot--utility")];
   const indicatorButton = document.querySelector(".svg-hotspot--indicator");
   const buttonFxLayer = document.querySelector("#buttonFxLayer");
+  const svgButtonsArt = document.querySelector(".svg-controls__art");
+  const notificationZone = document.querySelector("#notificationZone");
+  const notificationEyebrow = document.querySelector("#notificationEyebrow");
+  const notificationTitle = document.querySelector("#notificationTitle");
+  const notificationMessage = document.querySelector("#notificationMessage");
+  const notificationCode = document.querySelector("#notificationCode");
+  const mapMarker = document.querySelector("#mapMarker");
+  const mapMarkerLabel = document.querySelector("#mapMarkerLabel");
+  const mapRoute = document.querySelector("#mapRoute");
   const fullscreenHotspot = document.querySelector("#fullscreenHotspot");
   const toast = document.querySelector("#toast");
   const toastText = document.querySelector("#toastText");
@@ -25,7 +34,43 @@
   let lastFullscreenTap = 0;
   let fullscreenRequest = null;
   let lastFocusedElement = null;
+  let notificationTimer = 0;
+  let artReactionTimer = 0;
+  let markerTimers = [];
+  let markerPosition = { x: 50, y: 55 };
   const lastButtonAnimation = new WeakMap();
+
+  const actionNotifications = {
+    SYSTEM: ["SYSTEM // CORE", "CORE AWAKENED", "Secuencia lumínica del núcleo activada."],
+    VECTOR: ["NAV // VECTOR", "VECTOR ACQUIRED", "Trayectoria principal fijada y sincronizada."],
+    ZENITH: ["NAV // ZENITH", "ZENITH LOCKED", "Coordenadas superiores verificadas."],
+    JUNCTION: ["NAV // JUNCTION", "JUNCTION OPEN", "Intersección de tránsito preparada."],
+    RELAY: ["COMMS // RELAY", "RELAY ENGAGED", "Canal de retransmisión enlazado."],
+    LIFELINE: ["SYSTEM // LIFELINE", "LIFELINE STABLE", "Reserva vital dentro de parámetros."],
+    ARCHIVE: ["DATA // ARCHIVE", "ARCHIVE UNSEALED", "Registro histórico disponible para consulta."],
+    TRANSROLL: ["TRANSIT // ROLL", "TRANSROLL READY", "Matriz de embarque preparada."],
+  };
+
+  const markerPositions = {
+    SYSTEM: { x: 50, y: 13 },
+    VECTOR: { x: 76, y: 21 },
+    ZENITH: { x: 64, y: 33 },
+    JUNCTION: { x: 79, y: 48 },
+    RELAY: { x: 59, y: 61 },
+    LIFELINE: { x: 73, y: 79 },
+    ARCHIVE: { x: 31, y: 79 },
+    TRANSROLL: { x: 49, y: 88 },
+    "NODO 01": { x: 24, y: 18 },
+    "NODO 02": { x: 39, y: 25 },
+    "NODO 03": { x: 58, y: 19 },
+    "NODO 04": { x: 73, y: 31 },
+    "NODO 05": { x: 63, y: 44 },
+    "NODO 06": { x: 43, y: 39 },
+    "NODO 07": { x: 27, y: 53 },
+    "NODO 08": { x: 46, y: 64 },
+    "NODO 09": { x: 69, y: 69 },
+    "NODO 10": { x: 52, y: 84 },
+  };
 
   function fitStage() {
     const scale = Math.min(window.innerWidth / DESIGN_WIDTH, window.innerHeight / DESIGN_HEIGHT);
@@ -47,6 +92,88 @@
     }
   }
 
+  function hideControlNotification() {
+    window.clearTimeout(notificationTimer);
+    notificationZone.classList.remove("is-visible");
+    notificationZone.setAttribute("aria-hidden", "true");
+  }
+
+  function getControlName(button) {
+    return button.dataset.action || button.dataset.utility || button.dataset.label || "SYSTEM";
+  }
+
+  function drawMapRoute(from, to) {
+    const deltaX = ((to.x - from.x) / 100) * notificationZone.clientWidth;
+    const deltaY = ((to.y - from.y) / 100) * notificationZone.clientHeight;
+    const distance = Math.hypot(deltaX, deltaY);
+    const angle = Math.atan2(deltaY, deltaX) * (180 / Math.PI);
+
+    mapRoute.style.left = `${from.x}%`;
+    mapRoute.style.top = `${from.y}%`;
+    mapRoute.style.width = `${distance}px`;
+    mapRoute.style.transform = `rotate(${angle}deg)`;
+    mapRoute.classList.remove("is-drawing");
+    void mapRoute.offsetWidth;
+    mapRoute.classList.add("is-drawing");
+  }
+
+  function moveMapMarker(button) {
+    const controlName = getControlName(button);
+    const target = markerPositions[controlName] || markerPositions.SYSTEM;
+    const direction = target.x >= markerPosition.x ? 1 : -1;
+    const midpoint = {
+      x: Math.max(8, Math.min(92, (markerPosition.x + target.x) / 2 + direction * 4)),
+      y: Math.max(8, Math.min(92, (markerPosition.y + target.y) / 2 - 6)),
+    };
+
+    markerTimers.forEach((timer) => window.clearTimeout(timer));
+    markerTimers = [];
+    drawMapRoute(markerPosition, target);
+    mapMarkerLabel.textContent = controlName.replace("NODO ", "N-");
+    mapMarker.classList.remove("is-arriving");
+    mapMarker.classList.add("is-moving");
+
+    requestAnimationFrame(() => {
+      mapMarker.style.left = `${midpoint.x}%`;
+      mapMarker.style.top = `${midpoint.y}%`;
+    });
+
+    markerTimers.push(
+      window.setTimeout(() => {
+        mapMarker.style.left = `${target.x}%`;
+        mapMarker.style.top = `${target.y}%`;
+      }, 530),
+      window.setTimeout(() => {
+        mapMarker.classList.remove("is-moving");
+        mapMarker.classList.add("is-arriving");
+      }, 1080),
+      window.setTimeout(() => mapMarker.classList.remove("is-arriving"), 1880),
+    );
+
+    markerPosition = target;
+  }
+
+  function showControlNotification(button) {
+    const controlName = getControlName(button);
+    const content = button.dataset.label
+      ? ["NODE // SELECT", `${button.dataset.label} LINKED`, "Canal táctil sincronizado con la red de navegación."]
+      : actionNotifications[controlName] || ["SYSTEM // EVENT", "SIGNAL RECEIVED", "Comando aceptado por el terminal."];
+    const sequence = String(Math.floor(performance.now() * 10)).padStart(6, "0").slice(-6);
+
+    notificationEyebrow.textContent = content[0];
+    notificationTitle.textContent = content[1];
+    notificationMessage.textContent = content[2];
+    notificationCode.textContent = `EZ // ${sequence} // ${controlName}`;
+
+    window.clearTimeout(notificationTimer);
+    notificationZone.classList.remove("is-visible");
+    void notificationZone.offsetWidth;
+    notificationZone.classList.add("is-visible");
+    notificationZone.setAttribute("aria-hidden", "false");
+
+    notificationTimer = window.setTimeout(hideControlNotification, 3200);
+  }
+
   function emitButtonFx(button) {
     const buttonRect = button.getBoundingClientRect();
     const terminalRect = terminal.getBoundingClientRect();
@@ -54,16 +181,22 @@
     const centerX = (buttonRect.left + buttonRect.width / 2 - terminalRect.left) / terminalScale;
     const centerY = (buttonRect.top + buttonRect.height / 2 - terminalRect.top) / terminalScale;
     const burst = document.createElement("span");
+    const flare = document.createElement("span");
 
     burst.className = "control-burst";
     burst.style.left = `${centerX}px`;
     burst.style.top = `${centerY}px`;
     buttonFxLayer.append(burst);
 
-    for (let index = 0; index < 12; index += 1) {
+    flare.className = "control-flare";
+    flare.style.left = `${centerX}px`;
+    flare.style.top = `${centerY}px`;
+    buttonFxLayer.append(flare);
+
+    for (let index = 0; index < 18; index += 1) {
       const particle = document.createElement("i");
-      const angle = index * 30 + (index % 2) * 9;
-      const distance = 52 + (index % 4) * 17;
+      const angle = index * 20 + (index % 2) * 7;
+      const distance = 66 + (index % 5) * 20;
 
       particle.className = "control-particle";
       particle.style.left = `${centerX}px`;
@@ -76,6 +209,7 @@
     }
 
     burst.addEventListener("animationend", () => burst.remove(), { once: true });
+    flare.addEventListener("animationend", () => flare.remove(), { once: true });
   }
 
   function animateSvgButton(button) {
@@ -88,6 +222,13 @@
     void button.offsetWidth;
     button.classList.add("is-pressed");
     emitButtonFx(button);
+    moveMapMarker(button);
+    showControlNotification(button);
+    window.clearTimeout(artReactionTimer);
+    svgButtonsArt.classList.remove("is-reacting");
+    void svgButtonsArt.offsetWidth;
+    svgButtonsArt.classList.add("is-reacting");
+    artReactionTimer = window.setTimeout(() => svgButtonsArt.classList.remove("is-reacting"), 1000);
     window.setTimeout(() => button.classList.remove("is-pressed"), 920);
   }
 
@@ -182,6 +323,7 @@
 
   function openSignalModal() {
     if (signalModal.classList.contains("is-open")) return;
+    hideControlNotification();
     lastFocusedElement = document.activeElement;
     terminal.classList.add("is-obscured");
     signalModal.classList.add("is-open");

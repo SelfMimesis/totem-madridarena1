@@ -1536,6 +1536,10 @@ button:focus-visible {
   filter: drop-shadow(0 0 2px rgba(179, 188, 195, 0.18));
 }
 
+.svg-controls__art.is-reacting {
+  animation: svg-art-react 960ms cubic-bezier(0.14, 0.76, 0.18, 1);
+}
+
 .terminal.is-obscured .svg-controls {
   opacity: 0.1;
   filter: blur(4px);
@@ -1789,6 +1793,651 @@ button:focus-visible {
   background: linear-gradient(white, var(--cyan), transparent);
   box-shadow: 0 0 8px var(--cyan);
   animation: control-particle-flight 760ms cubic-bezier(0.14, 0.7, 0.2, 1) var(--particle-delay) forwards;
+}
+
+.control-particle:nth-of-type(3n) {
+  background: linear-gradient(white, var(--magenta), transparent);
+  box-shadow: 0 0 9px var(--magenta);
+}
+
+.control-flare {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  opacity: 0;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: white;
+  box-shadow:
+    0 0 14px white,
+    0 0 42px var(--cyan),
+    0 0 90px rgba(35, 246, 255, 0.82);
+  animation: control-flare-core 840ms ease-out forwards;
+}
+
+.control-flare::before,
+.control-flare::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 320px;
+  height: 3px;
+  transform: translate(-50%, -50%) scaleX(0.05);
+  background: linear-gradient(90deg, transparent, var(--cyan), white, var(--cyan), transparent);
+  box-shadow: 0 0 12px var(--cyan);
+  animation: control-flare-axis 760ms cubic-bezier(0.16, 0.75, 0.18, 1) forwards;
+}
+
+.control-flare::after {
+  width: 210px;
+  height: 2px;
+  transform: translate(-50%, -50%) rotate(90deg) scaleX(0.05);
+  animation-name: control-flare-axis-y;
+}
+
+.notification-zone {
+  position: absolute;
+  z-index: 22;
+  top: 5.9%;
+  left: 16.7%;
+  width: 71.05%;
+  height: 69.25%;
+  overflow: hidden;
+  visibility: visible;
+  opacity: 1;
+  pointer-events: none;
+  clip-path: polygon(3.2% 0, 96.8% 0, 100% 2.8%, 100% 97.2%, 96.8% 100%, 3.2% 100%, 0 97.2%, 0 2.8%);
+  transition: opacity 380ms ease, filter 380ms ease;
+}
+
+.notification-zone.is-visible {
+  opacity: 1;
+}
+
+.terminal.is-obscured .notification-zone {
+  opacity: 0;
+  filter: blur(5px);
+}
+
+.notification-blur {
+  position: absolute;
+  inset: -36px;
+  background:
+    linear-gradient(135deg, rgba(4, 11, 27, 0.48), rgba(4, 5, 17, 0.7)),
+    rgba(5, 8, 20, 0.36);
+  backdrop-filter: blur(24px) brightness(0.42) saturate(0.72);
+  transform: scale(1.03);
+  opacity: 0;
+  transition: opacity 380ms ease;
+}
+
+.notification-zone.is-visible .notification-blur {
+  opacity: 1;
+}
+
+.notification-blur::before,
+.notification-blur::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.notification-blur::before {
+  opacity: 0.32;
+  background:
+    linear-gradient(rgba(35, 246, 255, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(35, 246, 255, 0.08) 1px, transparent 1px);
+  background-size: 42px 42px;
+}
+
+.notification-blur::after {
+  background:
+    radial-gradient(circle at 50% 48%, rgba(29, 89, 255, 0.18), transparent 42%),
+    repeating-linear-gradient(0deg, transparent 0 8px, rgba(178, 246, 255, 0.035) 9px 10px);
+}
+
+.map-marker-layer {
+  position: absolute;
+  z-index: 2;
+  inset: 0;
+  pointer-events: none;
+}
+
+.map-route {
+  position: absolute;
+  z-index: 1;
+  left: 50%;
+  top: 55%;
+  width: 0;
+  height: 3px;
+  opacity: 0;
+  transform-origin: left center;
+  background:
+    repeating-linear-gradient(90deg, var(--cyan) 0 12px, transparent 13px 20px),
+    linear-gradient(90deg, var(--cyan), var(--violet), var(--magenta));
+  box-shadow:
+    0 0 8px var(--cyan),
+    0 0 20px rgba(35, 246, 255, 0.55);
+}
+
+.map-route.is-drawing {
+  animation: map-route-draw 1.25s cubic-bezier(0.18, 0.72, 0.2, 1) forwards;
+}
+
+.map-marker {
+  position: absolute;
+  z-index: 3;
+  top: 55%;
+  left: 50%;
+  width: 90px;
+  height: 118px;
+  transform: translate(-50%, -88%);
+  transition:
+    left 520ms cubic-bezier(0.24, 0.72, 0.18, 1),
+    top 520ms cubic-bezier(0.24, 0.72, 0.18, 1);
+  will-change: left, top;
+}
+
+.map-marker__pin {
+  position: absolute;
+  z-index: 3;
+  top: 15px;
+  left: 50%;
+  display: block;
+  width: 46px;
+  height: 46px;
+  border-radius: 50% 50% 50% 0;
+  transform: translateX(-50%) rotate(-45deg);
+  background: linear-gradient(135deg, white 0 13%, var(--cyan) 26%, var(--blue) 74%);
+  box-shadow:
+    0 0 8px white,
+    0 0 20px var(--cyan),
+    0 0 46px rgba(35, 246, 255, 0.72);
+}
+
+.map-marker__pin::before,
+.map-marker__pin::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+}
+
+.map-marker__pin::before {
+  inset: 8px;
+  background: #07112a;
+  box-shadow: inset 0 0 10px rgba(35, 246, 255, 0.7);
+}
+
+.map-marker__pin::after {
+  inset: 15px;
+  background: white;
+  box-shadow: 0 0 8px var(--cyan);
+}
+
+.map-marker__pin i {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 65px;
+  height: 65px;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  border: 1px solid rgba(35, 246, 255, 0.55);
+  animation: marker-pin-orbit 2.4s ease-in-out infinite;
+}
+
+.map-marker__radar {
+  position: absolute;
+  z-index: 1;
+  top: 56px;
+  left: 50%;
+  width: 72px;
+  height: 26px;
+  border-radius: 50%;
+  transform: translateX(-50%);
+  background: radial-gradient(ellipse, rgba(35, 246, 255, 0.34), transparent 66%);
+  border: 1px solid rgba(35, 246, 255, 0.42);
+  box-shadow: 0 0 16px rgba(35, 246, 255, 0.55);
+  animation: marker-radar 1.8s ease-in-out infinite;
+}
+
+.map-marker__label {
+  position: absolute;
+  right: 50%;
+  bottom: 4px;
+  min-width: 84px;
+  padding: 6px 10px;
+  transform: translateX(50%);
+  background: rgba(4, 11, 28, 0.76);
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-align: center;
+  color: var(--ice);
+  text-shadow: 0 0 8px var(--cyan);
+  box-shadow: inset 0 -2px rgba(35, 246, 255, 0.52);
+}
+
+.map-marker.is-moving .map-marker__pin {
+  animation: marker-flight 520ms ease-in-out infinite alternate;
+}
+
+.map-marker.is-arriving .map-marker__radar {
+  animation: marker-arrival 760ms cubic-bezier(0.14, 0.72, 0.18, 1);
+}
+
+.system-notification {
+  position: absolute;
+  z-index: 3;
+  top: 50%;
+  left: 50%;
+  display: grid;
+  width: 74%;
+  min-height: 300px;
+  grid-template-columns: 190px 1fr;
+  gap: 34px;
+  align-items: center;
+  padding: 48px 54px;
+  opacity: 0;
+  transform: translate(-50%, -43%) scale(0.86);
+  clip-path: polygon(6% 0, 94% 0, 100% 14%, 100% 86%, 94% 100%, 6% 100%, 0 86%, 0 14%);
+  background:
+    linear-gradient(116deg, rgba(22, 42, 82, 0.9), rgba(3, 8, 24, 0.96) 62%, rgba(28, 8, 43, 0.9)),
+    rgba(3, 7, 18, 0.96);
+  border: 1px solid rgba(105, 242, 255, 0.66);
+  box-shadow:
+    0 34px 90px rgba(0, 0, 8, 0.68),
+    0 0 42px rgba(35, 246, 255, 0.28),
+    inset 0 0 42px rgba(35, 246, 255, 0.055);
+}
+
+.notification-zone.is-visible .system-notification {
+  animation: notification-arrive 760ms cubic-bezier(0.12, 0.84, 0.18, 1.05) forwards;
+}
+
+.system-notification::before,
+.system-notification::after {
+  content: "";
+  position: absolute;
+  pointer-events: none;
+}
+
+.system-notification::before {
+  inset: 14px;
+  opacity: 0.46;
+  background:
+    linear-gradient(var(--magenta), var(--magenta)) 0 0 / 68px 2px no-repeat,
+    linear-gradient(var(--magenta), var(--magenta)) 0 0 / 2px 55px no-repeat,
+    linear-gradient(var(--cyan), var(--cyan)) 100% 100% / 68px 2px no-repeat,
+    linear-gradient(var(--cyan), var(--cyan)) 100% 100% / 2px 55px no-repeat;
+  filter: drop-shadow(0 0 7px currentColor);
+}
+
+.system-notification::after {
+  top: 0;
+  bottom: 0;
+  left: -20%;
+  width: 12%;
+  opacity: 0;
+  transform: skewX(-18deg);
+  background: linear-gradient(90deg, transparent, rgba(222, 254, 255, 0.6), transparent);
+  mix-blend-mode: screen;
+}
+
+.notification-zone.is-visible .system-notification::after {
+  animation: notification-sweep 1.45s ease-in-out 340ms;
+}
+
+.notification-beacon {
+  position: relative;
+  display: grid;
+  width: 168px;
+  height: 168px;
+  place-items: center;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle, rgba(35, 246, 255, 0.19), transparent 58%),
+    repeating-radial-gradient(circle, transparent 0 22px, rgba(35, 246, 255, 0.38) 23px 24px);
+  filter: drop-shadow(0 0 16px rgba(35, 246, 255, 0.48));
+  animation: notification-beacon-spin 9s linear infinite;
+}
+
+.notification-beacon::before,
+.notification-beacon::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+}
+
+.notification-beacon::before {
+  inset: -14px;
+  border: 2px dashed rgba(119, 103, 255, 0.56);
+}
+
+.notification-beacon::after {
+  top: 7px;
+  right: 24px;
+  width: 13px;
+  height: 13px;
+  background: var(--magenta);
+  box-shadow: 0 0 12px var(--magenta);
+}
+
+.notification-beacon span {
+  width: 94px;
+  height: 94px;
+  background: var(--cyan);
+  -webkit-mask: url("assets/transrollinfyah.svg") center / contain no-repeat;
+  mask: url("assets/transrollinfyah.svg") center / contain no-repeat;
+  filter: drop-shadow(0 0 7px var(--cyan)) drop-shadow(0 0 20px var(--cyan));
+}
+
+.notification-copy {
+  position: relative;
+  z-index: 2;
+  min-width: 0;
+}
+
+.notification-eyebrow {
+  display: block;
+  margin-bottom: 15px;
+  font-size: 15px;
+  letter-spacing: 5px;
+  color: var(--cyan);
+  text-shadow: 0 0 8px rgba(35, 246, 255, 0.7);
+}
+
+.notification-copy h2 {
+  margin: 0;
+  font-size: 40px;
+  font-weight: 400;
+  line-height: 1.18;
+  letter-spacing: 4px;
+  color: white;
+  text-shadow:
+    2px 0 0 rgba(255, 47, 145, 0.52),
+    -2px 0 0 rgba(35, 246, 255, 0.64),
+    0 0 18px rgba(35, 246, 255, 0.45);
+}
+
+.notification-copy p {
+  max-width: 540px;
+  margin: 22px 0 0;
+  font-size: 17px;
+  line-height: 1.55;
+  letter-spacing: 2px;
+  color: rgba(212, 244, 249, 0.68);
+}
+
+.notification-data {
+  position: absolute;
+  right: 54px;
+  bottom: 27px;
+  left: 54px;
+  display: flex;
+  gap: 9px;
+  height: 5px;
+}
+
+.notification-data span {
+  flex: 1;
+  transform: scaleX(0);
+  transform-origin: left;
+  background: linear-gradient(90deg, var(--cyan), rgba(119, 103, 255, 0.15));
+  box-shadow: 0 0 8px rgba(35, 246, 255, 0.5);
+}
+
+.notification-zone.is-visible .notification-data span {
+  animation: notification-data-load 680ms ease-out forwards;
+}
+
+.notification-data span:nth-child(2) { animation-delay: 90ms !important; }
+.notification-data span:nth-child(3) { animation-delay: 180ms !important; }
+.notification-data span:nth-child(4) { animation-delay: 270ms !important; }
+.notification-data span:nth-child(5) { animation-delay: 360ms !important; }
+
+.notification-code {
+  position: absolute;
+  top: 23px;
+  right: 38px;
+  font-size: 10px;
+  letter-spacing: 3px;
+  color: rgba(255, 47, 145, 0.72);
+}
+
+.notification-scan {
+  position: absolute;
+  z-index: 5;
+  top: -25%;
+  right: 0;
+  left: 0;
+  height: 64px;
+  opacity: 0;
+  background: linear-gradient(transparent, rgba(35, 246, 255, 0.2), rgba(255, 255, 255, 0.42), transparent);
+  mix-blend-mode: screen;
+}
+
+.notification-zone.is-visible .notification-scan {
+  animation: notification-scan 1.8s linear 260ms infinite;
+}
+
+@keyframes map-route-draw {
+  0% {
+    opacity: 0;
+    clip-path: inset(0 100% 0 0);
+  }
+
+  18% {
+    opacity: 0.9;
+  }
+
+  72% {
+    opacity: 0.72;
+    clip-path: inset(0 0 0 0);
+  }
+
+  100% {
+    opacity: 0;
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+@keyframes marker-pin-orbit {
+  0%,
+  100% {
+    opacity: 0.35;
+    transform: translate(-50%, -50%) scale(0.86);
+  }
+
+  50% {
+    opacity: 0.8;
+    transform: translate(-50%, -50%) scale(1.18);
+  }
+}
+
+@keyframes marker-radar {
+  0%,
+  100% {
+    opacity: 0.34;
+    transform: translateX(-50%) scale(0.72);
+  }
+
+  50% {
+    opacity: 0.84;
+    transform: translateX(-50%) scale(1.16);
+  }
+}
+
+@keyframes marker-flight {
+  from {
+    transform: translateX(-50%) rotate(-45deg) translate(0, 0) scale(0.94);
+  }
+
+  to {
+    transform: translateX(-50%) rotate(-45deg) translate(4px, -7px) scale(1.08);
+  }
+}
+
+@keyframes marker-arrival {
+  0% {
+    opacity: 1;
+    transform: translateX(-50%) scale(0.25);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateX(-50%) scale(3.2);
+  }
+}
+
+@keyframes svg-art-react {
+  0%,
+  100% {
+    opacity: 1;
+    filter: drop-shadow(0 0 2px rgba(179, 188, 195, 0.18));
+    transform: translateX(0);
+  }
+
+  12% {
+    opacity: 0.72;
+    filter:
+      brightness(2.1)
+      saturate(1.8)
+      drop-shadow(5px 0 0 rgba(255, 47, 145, 0.5))
+      drop-shadow(-5px 0 0 rgba(35, 246, 255, 0.6));
+    transform: translateX(-2px);
+  }
+
+  19% {
+    opacity: 1;
+    transform: translateX(3px);
+  }
+
+  36% {
+    filter:
+      brightness(1.65)
+      saturate(1.45)
+      drop-shadow(2px 0 0 rgba(255, 47, 145, 0.35))
+      drop-shadow(-2px 0 0 rgba(35, 246, 255, 0.45));
+    transform: translateX(0);
+  }
+}
+
+@keyframes control-flare-core {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.2);
+  }
+
+  16% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(4.8);
+  }
+}
+
+@keyframes control-flare-axis {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scaleX(0.04);
+  }
+
+  18% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scaleX(1.4);
+  }
+}
+
+@keyframes control-flare-axis-y {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) rotate(90deg) scaleX(0.04);
+  }
+
+  18% {
+    opacity: 0.9;
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) rotate(90deg) scaleX(1.3);
+  }
+}
+
+@keyframes notification-arrive {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -43%) scale(0.76);
+    filter: blur(12px);
+  }
+
+  24% {
+    opacity: 1;
+    transform: translate(-50%, -52%) scale(1.035);
+    filter: blur(0);
+  }
+
+  44% {
+    transform: translate(-50%, -49%) scale(0.985);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+    filter: blur(0);
+  }
+}
+
+@keyframes notification-sweep {
+  0% {
+    left: -20%;
+    opacity: 0;
+  }
+
+  24% {
+    opacity: 0.85;
+  }
+
+  100% {
+    left: 118%;
+    opacity: 0;
+  }
+}
+
+@keyframes notification-beacon-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes notification-data-load {
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes notification-scan {
+  0% {
+    opacity: 0;
+    transform: translateY(0);
+  }
+
+  14% {
+    opacity: 0.62;
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateY(410px);
+  }
 }
 
 @keyframes ambient-drift {

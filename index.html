@@ -118,6 +118,40 @@
         </div>
 
         <section
+          class="notification-zone"
+          id="notificationZone"
+          aria-label="Notificación del sistema"
+          aria-live="polite"
+          aria-atomic="true"
+          aria-hidden="true"
+        >
+          <div class="notification-blur" aria-hidden="true"></div>
+          <div class="map-marker-layer" aria-hidden="true">
+            <span class="map-route" id="mapRoute"></span>
+            <div class="map-marker" id="mapMarker">
+              <span class="map-marker__radar"></span>
+              <span class="map-marker__pin"><i></i></span>
+              <span class="map-marker__label" id="mapMarkerLabel">EZ-01</span>
+            </div>
+          </div>
+          <article class="system-notification">
+            <div class="notification-scan" aria-hidden="true"></div>
+            <div class="notification-beacon" aria-hidden="true">
+              <span></span>
+            </div>
+            <div class="notification-copy">
+              <span class="notification-eyebrow" id="notificationEyebrow">SYSTEM // EVENT</span>
+              <h2 id="notificationTitle">NODE SYNCHRONIZED</h2>
+              <p id="notificationMessage">Enlace de navegación estabilizado.</p>
+            </div>
+            <div class="notification-data" aria-hidden="true">
+              <span></span><span></span><span></span><span></span><span></span>
+            </div>
+            <div class="notification-code" id="notificationCode">EZ // 000001 // ONLINE</div>
+          </article>
+        </section>
+
+        <section
           class="signal-modal"
           id="signalModal"
           role="dialog"
