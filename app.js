@@ -193,10 +193,10 @@
     flare.style.top = `${centerY}px`;
     buttonFxLayer.append(flare);
 
-    for (let index = 0; index < 18; index += 1) {
+    for (let index = 0; index < 6; index += 1) {
       const particle = document.createElement("i");
-      const angle = index * 20 + (index % 2) * 7;
-      const distance = 66 + (index % 5) * 20;
+      const angle = index * 60 + (index % 2) * 8;
+      const distance = 30 + (index % 3) * 12;
 
       particle.className = "control-particle";
       particle.style.left = `${centerX}px`;
@@ -228,8 +228,8 @@
     svgButtonsArt.classList.remove("is-reacting");
     void svgButtonsArt.offsetWidth;
     svgButtonsArt.classList.add("is-reacting");
-    artReactionTimer = window.setTimeout(() => svgButtonsArt.classList.remove("is-reacting"), 1000);
-    window.setTimeout(() => button.classList.remove("is-pressed"), 920);
+    artReactionTimer = window.setTimeout(() => svgButtonsArt.classList.remove("is-reacting"), 700);
+    window.setTimeout(() => button.classList.remove("is-pressed"), 620);
   }
 
   function updateSliderThumb(index, animate = true) {
