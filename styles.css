@@ -1298,8 +1298,239 @@ button:focus-visible {
   background: transparent;
 }
 
+/* Minimal touch layer: the controls already rendered in the video remain visible
+   and these elements only add interaction and a restrained active-state glow. */
+.slider-track {
+  width: 3px;
+  background: rgba(99, 111, 255, 0.46);
+  box-shadow: 0 0 12px rgba(74, 93, 255, 0.52);
+}
+
+.slider-track::before {
+  display: none;
+}
+
+.slider-track__charge {
+  opacity: 0.66;
+  background: linear-gradient(to top, rgba(119, 103, 255, 0.42), var(--cyan));
+  box-shadow: 0 0 13px rgba(35, 246, 255, 0.58);
+}
+
+.slider-thumb {
+  width: 20px;
+  height: 20px;
+  border: 0;
+  border-radius: 50%;
+  background: var(--ice);
+  box-shadow:
+    0 0 8px var(--cyan),
+    0 0 24px rgba(35, 246, 255, 0.92),
+    0 0 50px rgba(35, 246, 255, 0.5);
+  filter: none;
+  transform: translate(-50%, -50%);
+}
+
+.slider-thumb::before {
+  inset: -14px;
+  border: 0;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(35, 246, 255, 0.2), transparent 68%);
+}
+
+.slider-thumb::after {
+  inset: -36px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(35, 246, 255, 0.13), transparent 68%);
+  box-shadow: none;
+}
+
+.slider-thumb span {
+  display: none;
+}
+
+.left-slider.is-dragging .slider-thumb {
+  background: white;
+  box-shadow:
+    0 0 10px white,
+    0 0 30px var(--cyan),
+    0 0 66px rgba(35, 246, 255, 0.64);
+}
+
+.slider-node {
+  overflow: visible;
+  background: transparent;
+  border: 0;
+  clip-path: none;
+  box-shadow: none;
+}
+
+.slider-node::before {
+  inset: 6px;
+  border-radius: 14px;
+  opacity: 0;
+  background: radial-gradient(circle, rgba(144, 250, 255, 0.3), rgba(35, 246, 255, 0.08) 48%, transparent 72%);
+  filter: blur(5px);
+}
+
+.slider-node__code {
+  opacity: 0;
+}
+
+.slider-node.is-active {
+  background: rgba(70, 219, 237, 0.045);
+  border: 0;
+  box-shadow: inset 0 0 25px rgba(35, 246, 255, 0.1);
+  transform: none;
+  backdrop-filter: brightness(1.25) saturate(1.16);
+}
+
+.slider-node.is-active::before {
+  opacity: 1;
+  animation: soft-pulse 2.2s ease-in-out infinite;
+}
+
+.slider-node.is-active .slider-node__code {
+  opacity: 0;
+}
+
+.action-button {
+  background: transparent;
+  border: 0;
+  clip-path: none;
+  box-shadow: none;
+}
+
+.action-button::before {
+  inset: 5%;
+  border: 0;
+  border-radius: 12px;
+  background: radial-gradient(ellipse at center, rgba(35, 246, 255, 0.2), transparent 72%);
+  filter: blur(8px);
+}
+
+.action-button::after {
+  display: none;
+}
+
+.action-button__glyph,
+.action-button__label {
+  opacity: 0;
+}
+
+.action-button.is-active {
+  background: rgba(35, 246, 255, 0.035);
+  border: 0;
+  box-shadow: inset 0 0 35px rgba(35, 246, 255, 0.11);
+  transform: none;
+  backdrop-filter: brightness(1.27) saturate(1.18);
+}
+
+.action-button.is-active::before {
+  opacity: 0.74;
+  animation: soft-pulse 2.4s ease-in-out infinite;
+}
+
+.action-button.is-active .action-button__glyph {
+  opacity: 0;
+}
+
+.signal-strip {
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+}
+
+.signal-strip__fill {
+  opacity: 0.22;
+  background: linear-gradient(90deg, transparent, rgba(35, 246, 255, 0.54));
+  border: 0;
+  box-shadow: 0 0 16px rgba(35, 246, 255, 0.42);
+}
+
+.signal-strip__text {
+  opacity: 0;
+}
+
+.utility-button {
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+}
+
+.utility-button small,
+.utility-button__diamond,
+.utility-button__cross {
+  opacity: 0;
+}
+
+.utility-button.is-active {
+  background: radial-gradient(circle, rgba(35, 246, 255, 0.15), transparent 68%);
+  border: 0;
+  box-shadow: inset 0 0 30px rgba(35, 246, 255, 0.08);
+  transform: none;
+  backdrop-filter: brightness(1.22) saturate(1.15);
+}
+
+.footer-hotspot {
+  background: transparent;
+  border: 0;
+}
+
+.footer-hotspot::before,
+.footer-hotspot::after,
+.footer-hotspot span {
+  opacity: 0;
+}
+
+.footer-hotspot.is-active {
+  background: radial-gradient(ellipse at center, rgba(35, 246, 255, 0.12), transparent 72%);
+  border: 0;
+  box-shadow: none;
+  backdrop-filter: brightness(1.22);
+}
+
+.signal-modal {
+  border: 1px solid rgba(91, 231, 246, 0.46);
+  box-shadow:
+    0 36px 130px rgba(0, 0, 8, 0.82),
+    0 0 50px rgba(35, 246, 255, 0.2),
+    inset 0 0 46px rgba(35, 246, 255, 0.045);
+}
+
+.modal-corners {
+  opacity: 0.46;
+}
+
+.modal-close {
+  background: rgba(255, 47, 145, 0.07);
+  border: 0;
+  box-shadow: inset 0 0 22px rgba(255, 47, 145, 0.11);
+}
+
+.led-visual {
+  border-color: rgba(35, 246, 255, 0.13);
+}
+
+.modal-metrics > div {
+  background: rgba(12, 23, 49, 0.42);
+  border: 0;
+}
+
 @keyframes ambient-drift {
   to { transform: translate(190px, 120px) scale(1.1); }
+}
+
+@keyframes soft-pulse {
+  0%,
+  100% {
+    opacity: 0.46;
+    transform: scale(0.94);
+  }
+
+  50% {
+    opacity: 0.9;
+    transform: scale(1.04);
+  }
 }
 
 @keyframes stage-scan {
